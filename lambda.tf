@@ -50,10 +50,20 @@ module "transcribe" {
   lambda_folder_path = "${path.module}/lambdas/transcribeFunction"
   lambda_policy      = data.aws_iam_policy_document.transcribe_policy.json
 
-  filter_suffix = ".mp3"
-  s3_bucket_id = aws_s3_bucket.this.id
   s3_bucket_arn = aws_s3_bucket.this.arn
 }
+
+resource "aws_s3_bucket_notification" "transcribe" {
+  bucket = aws_s3_bucket.this.id
+
+  lambda_function {
+    lambda_function_arn = module.transcribe.lambda_arn
+    events              = [
+      "s3:ObjectCreated:*"]
+    filter_suffix       = ".mp3"
+  }
+}
+
 
 # ------------------------------------------------------------------------------
 # Sentiment detection function
@@ -121,7 +131,16 @@ module "sentiment" {
     ddbTable = aws_dynamodb_table.this.name
   }
 
-  filter_suffix = ".json"
-  s3_bucket_id = aws_s3_bucket.this.id
   s3_bucket_arn = aws_s3_bucket.this.arn
+}
+
+resource "aws_s3_bucket_notification" "sentiment" {
+  bucket = aws_s3_bucket.this.id
+
+  lambda_function {
+    lambda_function_arn = module.sentiment.lambda_arn
+    events              = [
+      "s3:ObjectCreated:*"]
+    filter_suffix       = ".json"
+  }
 }

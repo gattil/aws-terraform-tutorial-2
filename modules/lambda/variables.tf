@@ -31,12 +31,6 @@ variable "lambda_policy"{
 }
 
 # ---------------------------------------------------------------
-variable "filter_suffix" {
-  default = ""
-}
-variable "s3_bucket_id"{
-  default = ""
-}
 variable "s3_bucket_arn"{
   default = ""
 }

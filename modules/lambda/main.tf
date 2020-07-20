@@ -66,7 +66,6 @@ resource "aws_iam_role_policy_attachment" "extra-lambda-policy-attachment" {
 
 }
 
-
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
@@ -75,14 +74,3 @@ resource "aws_lambda_permission" "allow_bucket" {
   source_arn    = var.s3_bucket_arn
 }
 
-resource "aws_s3_bucket_notification" "this" {
-  bucket = var.s3_bucket_id
-
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.this.arn
-    events              = [
-      "s3:ObjectCreated:*"]
-    filter_suffix       = var.filter_suffix
-    //".txt"
-  }
-}
