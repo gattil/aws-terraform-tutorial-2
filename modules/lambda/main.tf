@@ -3,8 +3,8 @@
 
 data "archive_file" "this" {
   type        = "zip"
-  source_file = var.lambda_folder_path
-  output_path = "${path.module}/lambdas/unicorn-management-service.zip"
+  source_dir = var.lambda_folder_path
+  output_path = "${path.module}/${var.lambda_folder_path}.zip"
 }
 
 resource "aws_lambda_function" "this" {
@@ -63,7 +63,7 @@ resource "aws_iam_policy" "extra_policy" {
 resource "aws_iam_role_policy_attachment" "extra-lambda-policy-attachment" {
   count = length(var.lambda_policy) > 0 ? 1 : 0
   role       = aws_iam_role.this.name
-  policy_arn = aws_iam_policy.extra_policy.arn
+  policy_arn = aws_iam_policy.extra_policy[0].arn
 
 }
 
