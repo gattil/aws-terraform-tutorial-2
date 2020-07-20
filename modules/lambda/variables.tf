@@ -37,3 +37,6 @@ variable "filter_suffix" {
 variable "s3_bucket_id"{
   default = ""
 }
+variable "s3_bucket_var"{
+  default = ""
+}
