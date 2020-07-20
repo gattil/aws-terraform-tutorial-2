@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "${var.username}-InputS3Bucket"
+  bucket = "${var.username}-sentiment-analysis-input-s3-bucket"
   acl    = "private"
 
   server_side_encryption_configuration {
