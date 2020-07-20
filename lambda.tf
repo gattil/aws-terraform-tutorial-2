@@ -53,18 +53,6 @@ module "transcribe" {
   s3_bucket_arn = aws_s3_bucket.this.arn
 }
 
-resource "aws_s3_bucket_notification" "transcribe" {
-  bucket = aws_s3_bucket.this.id
-
-  lambda_function {
-    lambda_function_arn = module.transcribe.lambda_arn
-    events              = [
-      "s3:ObjectCreated:*"]
-    filter_suffix       = ".mp3"
-  }
-}
-
-
 # ------------------------------------------------------------------------------
 # Sentiment detection function
 # ------------------------------------------------------------------------------
@@ -134,13 +122,3 @@ module "sentiment" {
   s3_bucket_arn = aws_s3_bucket.this.arn
 }
 
-resource "aws_s3_bucket_notification" "sentiment" {
-  bucket = aws_s3_bucket.this.id
-
-  lambda_function {
-    lambda_function_arn = module.sentiment.lambda_arn
-    events              = [
-      "s3:ObjectCreated:*"]
-    filter_suffix       = ".json"
-  }
-}

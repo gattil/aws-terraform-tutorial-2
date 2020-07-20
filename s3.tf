@@ -12,3 +12,25 @@ resource "aws_s3_bucket" "this" {
   force_destroy = true
   tags = var.tags
 }
+
+# ------------------------------------------------------------------------------
+# Add notification to lambda
+# ------------------------------------------------------------------------------
+
+resource "aws_s3_bucket_notification" "sentiment" {
+  bucket = aws_s3_bucket.this.id
+
+  lambda_function {
+    lambda_function_arn = module.sentiment.lambda_arn
+    events              = [
+      "s3:ObjectCreated:*"]
+    filter_suffix       = ".json"
+  }
+
+  lambda_function {
+    lambda_function_arn = module.transcribe.lambda_arn
+    events              = [
+      "s3:ObjectCreated:*"]
+    filter_suffix       = ".mp3"
+  }
+}
