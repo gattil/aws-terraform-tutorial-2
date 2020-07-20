@@ -1,5 +1,6 @@
-#AWS_REGION
-#ddbTable
+locals {
+  environment_vars = merge(var.lambda_environment_variables, map('name', var.lambda_name))
+}
 
 data "archive_file" "this" {
   type        = "zip"
@@ -22,7 +23,7 @@ resource "aws_lambda_function" "this" {
   runtime = var.lambda_runtime
 
   environment {
-    variables = var.lambda_environment_variables
+    variables = local.environment_vars
   }
 
   tags = var.tags
