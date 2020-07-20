@@ -65,6 +65,15 @@ resource "aws_iam_role_policy_attachment" "extra-lambda-policy-attachment" {
 
 }
 
+
+resource "aws_lambda_permission" "allow_bucket" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.this.arn
+  principal     = "s3.amazonaws.com"
+  source_arn    = var.s3_bucket_arn
+}
+
 resource "aws_s3_bucket_notification" "this" {
   bucket = var.s3_bucket_id
 

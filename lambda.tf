@@ -63,4 +63,5 @@ module "transcribe" {
   }
   filter_suffix = ".json"
   s3_bucket_id = aws_s3_bucket.this.id
+  s3_bucket_arn = aws_s3_bucket.this.arn
 }
