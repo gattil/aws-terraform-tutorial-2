@@ -62,4 +62,5 @@ module "transcribe" {
     ddbTable = aws_dynamodb_table.this.name
   }
   filter_suffix = ".json"
+  s3_bucket_id = aws_s3_bucket.this.id
 }
