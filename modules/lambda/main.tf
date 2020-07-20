@@ -56,12 +56,12 @@ resource "aws_iam_role_policy_attachment" "standard-lambda-policy-attachment" {
 }
 
 resource "aws_iam_policy" "extra_policy" {
-  count = len(var.lambda_policy) > 0 ? 1 : 0
+  count = length(var.lambda_policy) > 0 ? 1 : 0
   policy = var.lambda_policy
 }
 
 resource "aws_iam_role_policy_attachment" "extra-lambda-policy-attachment" {
-  count = len(var.lambda_policy) > 0 ? 1 : 0
+  count = length(var.lambda_policy) > 0 ? 1 : 0
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.extra_policy.arn
 
